@@ -1,7 +1,7 @@
 //products, the name of the department it's in, and the price
 var container = document.getElementById("container");
 var select = document.getElementById("select");
-select.addEventListener("change",updateDiscount);
+select.addEventListener("change",discountPercentage);
 
 var products;
 function getProducts () {
@@ -13,21 +13,26 @@ var categories;
 function getCategories () {
   var data = JSON.parse(this.responseText);
   categories = data.categories;
-  domOutput();
 }
 
 function domOutput() {
   categories.forEach(function(object) {
     for (var i = 0; i < products.length; i++) {
       if (object.id === products[i].category_id) {
-        container.innerHTML += "<div>" + object.name + " - " + products[i].name + " " + products[i].price + "</div>";
+        container.innerHTML += "<div>" + object.name + " - " + products[i].name + " " + discount + "</div>";
       }
     }
   })
 }
 
-function updateDiscount() {
-	console.log(select.value);//season_discount; products.price * discount;
+function discountPercentage(selectedDiscount) {
+  var discountedPercentageObj = categories.find(function(selectedDiscount){
+    return selectedDiscount === categories.season_discount;
+  })
+  console.log(discountedPercentageObj);
+  // var discount = discountedPercentageObj.discount;
+  // console.log(discount);
+  // domOutput(discount);
 }
 
 function executeThisCodeIfXHRFails () {
