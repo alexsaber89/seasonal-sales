@@ -1,5 +1,7 @@
 //products, the name of the department it's in, and the price
 var container = document.getElementById("container");
+var select = document.getElementById("select");
+select.addEventListener("change",updateDiscount);
 
 var products;
 function getProducts () {
@@ -22,6 +24,10 @@ function domOutput() {
       }
     }
   })
+}
+
+function updateDiscount() {
+	console.log(select.value);//season_discount; products.price * discount;
 }
 
 function executeThisCodeIfXHRFails () {
