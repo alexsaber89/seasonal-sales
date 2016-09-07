@@ -34,10 +34,10 @@ function domOutput(discount) {
   categories.forEach(function(object) {
     for (var i = 0; i < products.length; i++) {
       if (object.id === products[i].category_id) {
-        var number = (products[i].price - (products[i].price * discount));
-        number = Math.round(number * 100) / 100;
+        var discountedPrice = (products[i].price - (products[i].price * discount));
+        discountedPrice = Math.round(discountedPrice * 100) / 100;
         domString += "<div>" + object.name + " - " + products[i].name + " $";
-        domString += number;
+        domString += discountedPrice;
         domString += "</div>";
       }
     }
