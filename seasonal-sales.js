@@ -8,12 +8,14 @@ var products;
 function getProducts () {
   var data = JSON.parse(this.responseText);
   products = data.products;
+  XHR2();
 }
 
 var categories;
 function getCategories () {
   var data = JSON.parse(this.responseText);
   categories = data.categories;
+  domOutput(0);
 }
 
 //Determine what discount to apply, based on user selection
@@ -45,7 +47,6 @@ function domOutput(discount) {
   container.innerHTML = domString;
 }
 
-//XHR's
 function executeThisCodeIfXHRFails () {
   console.log("An error occurred while transferring");
 }
@@ -53,6 +54,7 @@ function executeThisCodeIfXHRFails () {
 function executeThisCodeWhenChunksArrive () {
 }
 
+//XHR's
 var myRequest = new XMLHttpRequest();
 myRequest.addEventListener("load", getProducts);
 myRequest.addEventListener("error", executeThisCodeIfXHRFails);
@@ -60,9 +62,11 @@ myRequest.addEventListener("progress", executeThisCodeWhenChunksArrive);
 myRequest.open("GET", "products.json");
 myRequest.send();
 
-var myRequest2 = new XMLHttpRequest();
-myRequest2.addEventListener("load", getCategories);
-myRequest2.addEventListener("error", executeThisCodeIfXHRFails);
-myRequest2.addEventListener("progress", executeThisCodeWhenChunksArrive);
-myRequest2.open("GET", "categories.json");
-myRequest2.send();
+function XHR2() {
+  var myRequest2 = new XMLHttpRequest();
+  myRequest2.addEventListener("load", getCategories);
+  myRequest2.addEventListener("error", executeThisCodeIfXHRFails);
+  myRequest2.addEventListener("progress", executeThisCodeWhenChunksArrive);
+  myRequest2.open("GET", "categories.json");
+  myRequest2.send();
+}
