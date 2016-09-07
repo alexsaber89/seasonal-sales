@@ -1,8 +1,9 @@
-//products, the name of the department it's in, and the price
+//DOM
 var container = document.getElementById("container");
 var select = document.getElementById("select");
-select.addEventListener("change",updateDiscount);
+select.addEventListener("change",discountPercentage);
 
+//Global storage for XHR responses
 var products;
 function getProducts () {
   var data = JSON.parse(this.responseText);
@@ -13,23 +14,38 @@ var categories;
 function getCategories () {
   var data = JSON.parse(this.responseText);
   categories = data.categories;
-  domOutput();
 }
 
-function domOutput() {
+//Determine what discount to apply, based on user selection
+function discountPercentage() {
+  var selection = select.value;
+  var discount = 0;
+  for (var j = 0; j < categories.length; j++) {
+    if (selection === categories[j].season_discount) {
+      discount = categories[j].discount;
+    }
+  }
+  domOutput(discount);
+}
+
+//Display product department, name, and price (with discount applied)
+function domOutput(discount) {
+  var domString = "";
   categories.forEach(function(object) {
     for (var i = 0; i < products.length; i++) {
       if (object.id === products[i].category_id) {
-        container.innerHTML += "<div>" + object.name + " - " + products[i].name + " " + products[i].price + "</div>";
+        var number = (products[i].price - (products[i].price * discount));
+        number = Math.round(number * 100) / 100;
+        domString += "<div>" + object.name + " - " + products[i].name + " $";
+        domString += number;
+        domString += "</div>";
       }
     }
   })
+  container.innerHTML = domString;
 }
 
-function updateDiscount() {
-	console.log(select.value);//season_discount; products.price * discount;
-}
-
+//XHR's
 function executeThisCodeIfXHRFails () {
   console.log("An error occurred while transferring");
 }
